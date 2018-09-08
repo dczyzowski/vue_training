@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title>Vue.js Damian</title>
+  <style>
+    #app {
+      font-family: 'Roboto', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: #2c3e50;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Vue.js</h1>
+
+  <p>is ready to start an adventure</p>
+
+  <div id="app">
+    <h2>Lista</h2>
+    <ul>
+      <!-- 2. Then, we're using built-in v-for directive to iterate over products -->
+      <li v-for="product in products">{{ product.name }}</li>
+    </ul>
+    <!-- 5. v-if can be helpful with conditional statements -->
+    <p v-if="!products.length">No products!</p>
+    <!-- 6. v-on adds an handler and :click is the name of the event, then goes the function to invoke -->
+    <input v-model="mProduct" placeholder="New product name">
+    <button @click="addProduct(mProduct)">Add product</button>
+    <button v-on:click="removeLast()">Remove last item</button>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        //7/ 1. We can define any JavaScript some array of objects
+        products: [{
+          id: 0,
+          name: 'Coffee'
+        }, {
+          id: 1,
+          name: 'Pizza'
+        },
+        {
+          id: 2,
+          name: 'Kola'
+        }]
+      },
+      // 3. To get some events from user we can define a method in 'methods'
+      methods: {
+        //3/ 4. The important thing is to use function with execution-based context
+        removeLast() {
+          this.products.pop();
+        },
+        addProduct(mProduct) {
+            this.products.push({
+                id: this.products[this.products.length - 1],
+                name: mProduct });
+        }
+      }
+    })
+  </script>
+</body>
