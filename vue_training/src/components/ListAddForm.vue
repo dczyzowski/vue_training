@@ -4,7 +4,9 @@
       <!-- 2. Then, we're using built-in v-for directive to iterate over products -->
       <li 
         v-for="product in products" 
-        :key="product.id"> {{ product.name }} <button @click="removeProduct(product.id)">remove</button></li>
+        :key="product.id"> {{ product.name }} 
+        <button @click="removeProduct(product.id)">X</button> 
+        <button @click="addToCart(product.id)">+</button></li>
     </ul>
     <p v-if="!products.length">No products!</p>
     <!-- 6. v-on adds an handler and :click is the name of the event, then goes the function to invoke -->
@@ -14,6 +16,7 @@
         v-model="mProduct"
         name="mProduct">
         <button v-if="mProduct.length > 3">Add product</button>
+        <button v-else disabled>Add product</button>
         </form>
         <button @click="removeLast()">Remove last item</button> 
   </div>
