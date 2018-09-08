@@ -9,6 +9,11 @@
 
 <script>
 import ListAddForm from './components/ListAddForm.vue'
+import VeeValidate from 'vee-validate'
+import Vue from 'vue'
+import uuid from 'vue-uuid'
+Vue.use(VeeValidate);
+Vue.use(uuid);
 
 export default {
   name: 'App',

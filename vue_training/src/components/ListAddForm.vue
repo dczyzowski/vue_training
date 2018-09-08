@@ -4,56 +4,61 @@
       <!-- 2. Then, we're using built-in v-for directive to iterate over products -->
       <li 
         v-for="product in products" 
-        :key="product.id"> {{ product.id }}. {{ product.name }} <button @click="removeProduct(product.id)">remove</button></li>
+        :key="product.id"> {{ product.name }} <button @click="removeProduct(product.id)">remove</button></li>
     </ul>
     <p v-if="!products.length">No products!</p>
     <!-- 6. v-on adds an handler and :click is the name of the event, then goes the function to invoke -->
-    <input 
-      v-model="mProduct" 
-      placeholder="New product name">
-    <button @click="addProduct(mProduct)">Add product</button>
-    <button @click="removeLast()">Remove last item</button>
+    <form @submit.prevent="onSubmit()">
+        <input 
+        v-validate="'required|min:3'"
+        v-model="mProduct"
+        name="mProduct">
+        <button v-if="mProduct.length > 3">Add product</button>
+        </form>
+        <button @click="removeLast()">Remove last item</button> 
   </div>
 </template>
 
 <script>
+
 export default {
-    props: {
+  props: {},
 
-    },
-
-    data() { 
-        return {
-    name: 'ListAddForm',
-            products: [{
-          id: 0,
-          name: 'Coffee'
-        }, {
-          id: 1,
-          name: 'Pizza'
+  data() {
+    return {
+     mProduct: '',
+      name: "ListAddForm",
+      products: [
+        {
+          id: this.$uuid.v4(),
+          name: "Coffee"
+        },
+        {
+          id: this.$uuid.v4(),
+          name: "Pizza"
         },
         {
           id: 2,
-          name: 'Kola'
-        }]
-    }
+          name: "Kola"
+        }
+      ]
+    };
   },
   methods: {
     removeLast() {
-          this.products.pop();
-        },
-    addProduct(mProduct) {
-            this.products.push({
-                id: this.products[this.products.length - 1].id + 1,
-                name: mProduct });
-        },
+      this.products.pop();
+    },
+    onSubmit() {
+      this.products.push({
+        id: this.$uuid.v4(),
+        name: this.mProduct
+      });
+    },
     removeProduct(idProduct) {
-            this.products = this.products.filter(product => product.id != idProduct);
-        }
+      this.products = this.products.filter(product => product.id != idProduct);
     }
-  
-  
-}
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
