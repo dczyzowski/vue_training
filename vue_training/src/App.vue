@@ -3,33 +3,40 @@
     <img 
       alt="Vue logo" 
       src="./assets/logo.png">
-    <ListAddForm />
+    <product-list :products="sharedState.products"></product-list>
+    <add-product @add-product="onAddProduct"></add-product>
   </div>
 </template>
 
 <script>
-import ListAddForm from './components/ListAddForm.vue'
-import VeeValidate from 'vee-validate'
-import Vue from 'vue'
-import uuid from 'vue-uuid'
-Vue.use(VeeValidate);
-Vue.use(uuid);
+import ProductList from './components/ProductList.vue'
+import AddProduct from './components/AddProduct.vue'
+import store from './store/'
+
 
 export default {
   name: 'App',
   components: {
-    ListAddForm
+    ProductList,
+    AddProduct
+  },
+  created() {
+    store.fetchProducts();
+  },
+  data() {
+    //3/ 3. Instead of just products we have to add reference to whole state
+    return {
+      sharedState: store.state
+    }
+  },
+  methods: {
+    //3/ 5. Handler is using store
+    onAddProduct(product) {
+      store.addProduct(product);
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Roboto', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
